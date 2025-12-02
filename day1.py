@@ -1,4 +1,4 @@
-def main():
+def day1():
     current_point = 50
     crosses_count = 0
     zero_count = 0
@@ -26,4 +26,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    day1()
