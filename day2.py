@@ -15,8 +15,6 @@ def day2():
     total1 = 0
     total2 = 0
     
-    even_len_ids = []
-    
     segments = day2_input.split(",")
     for item in segments:
         start_str, end_str = item.split("-")
