@@ -1,6 +1,4 @@
-
-
-def main():
+def day3():
     total1 = 0
     total2 = 0
 
@@ -42,4 +40,4 @@ def main():
     print(f"Total2: {total2}")    
 
 if __name__ == "__main__":
-    main()
+    day3()
