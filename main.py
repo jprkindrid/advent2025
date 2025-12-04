@@ -1,42 +1,46 @@
 
+from typing import List, Set, Tuple
 
 def main():
+    roll = "@"
+    empty = "."
     total1 = 0
     total2 = 0
-
-    with open("input3.txt") as f:
-        for line in f:
+    total_rolls = 0
+    roll_list: List[Tuple[int,int]] = []
+    with open("input4.txt") as f:
+        for y, line in enumerate(f):
             line = line.strip()
 
-            #part 1
-            two_digit_nums = set()
-            
-            for i in range(len(line)):
-                for j in range(i + 1, len(line)):
-                    first = int(line[i])
-                    second = int(line[j])
-                    value = (first * 10) + second
-                    two_digit_nums.add(value)
-            total1 += max(two_digit_nums)
+            for x, ch in enumerate(line):
+                total_rolls += 1
+                if ch == roll:
+                    roll_list.append((x, y))
 
-            #part2
-            nums = list(line)
-            n = len(nums)
-            limit = 12
+    roll_positions: Set[Tuple[int, int]] = set(roll_list)
 
-            to_remove = n - limit
-            stack = []
+    for roll in roll_list:
+        adjacent = 0
+        possible_positions = [
+            (roll[0] + 1, roll[1] + 1),
+            (roll[0] + 1, roll[1] - 1),
+            (roll[0] - 1, roll[1] + 1),
+            (roll[0] - 1, roll[1] - 1),
+            (roll[0], roll[1] + 1),
+            (roll[0], roll[1] - 1),
+            (roll[0] - 1, roll[1]),
+            (roll[0] + 1, roll[1]),
+        ]
+        for pos in possible_positions:
+            if pos in roll_positions:
+                adjacent += 1
+                if adjacent > 3:
+                    break
 
-            for d in nums:
-                while to_remove > 0 and stack and stack[-1] < d:
-                    stack.pop()
-                    to_remove -= 1
-                stack.append(d)
+        if adjacent > 3:
+            continue
 
-            stack = stack[:limit]
-
-            total2 += int("".join(stack))
-
+        total1 += 1
 
     print(f"Total1: {total1}")    
     print(f"Total2: {total2}")    
