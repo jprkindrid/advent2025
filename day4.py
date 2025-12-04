@@ -41,13 +41,16 @@ def day4():
     processing = True
     while processing:
         processing = False
-        for i, roll in enumerate(roll_list):
+        removable = set()
+        for roll in roll_list:
             if can_remove(roll, roll_positions):
-                processing = True
-                del roll_list [i]
-                roll_positions.remove(roll)
+                removable.add(roll)
                 total2 += 1
-                continue
+
+        if removable:
+            processing = True
+            roll_list = [roll for roll in roll_list if roll not in removable]
+            roll_positions -= removable
 
     print(f"Total1: {total1}")    
     print(f"Total2: {total2}")    
