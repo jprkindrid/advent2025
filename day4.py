@@ -1,6 +1,6 @@
 from typing import List, Set, Tuple
 
-def main():
+def day4():
     roll = "@"
     empty = "."
     total1 = 0
@@ -19,7 +19,6 @@ def main():
     roll_positions: Set[Tuple[int, int]] = set(roll_list)
 
     #part 1
-
     for roll in roll_list:
         adjacent = 0
         for dx in [-1, 0, 1]:
@@ -64,4 +63,4 @@ def main():
     print(f"Total2: {total2}")    
 
 if __name__ == "__main__":
-    main()
+    day4()
