@@ -38,7 +38,7 @@ def find_timelines(pos: int,idx: int, data: list[str], memo: dict):
     memo[key] = 1
     return 1
 
-def main():
+def day7():
     with open("input7.txt") as f:
         data = [line.rstrip("\n") for line in f]
 
@@ -47,6 +47,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    day7()
 
 
