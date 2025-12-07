@@ -1,6 +1,6 @@
 from math import prod
 
-def main():
+def day6():
     total1 = 0
     total2 = 0
 
@@ -66,5 +66,5 @@ def calc_column(op, buff):
         return prod(nums)
 
 if __name__ == "__main__":
-    main()
+    day6()
 
