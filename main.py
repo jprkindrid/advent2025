@@ -1,70 +1,68 @@
-from math import prod
+from math import sqrt
+filename = "input8.txt"
+num_connections = 10 if "example" in filename else 1000
+
 
 def main():
     total1 = 0
     total2 = 0
 
 
-    with open("input6.txt") as f:
-        data = [line.rstrip("\n") for line in f]
-
-    with open("input6.txt") as f:
-        tokens = [line.strip().split() for line in f]
-
-    operators = tokens[-1]
-    data_lines = tokens[:-1]
-    # part1
-    for col_idx, operator in enumerate(operators):
-
-        col_values = [int(row[col_idx]) for row in data_lines]
-        if operator == "+":
-            local_total = sum(col_values)
-        elif operator == "*":
-            local_total = prod(col_values)
-        total1 += local_total
+    points = []
+    with open(filename) as f:
+        for line in f:
+            x,y,z = map(int, line.strip().split(","))
+            points.append((x,y,z))
             
-    # part2
-    height = len(data)
-    width = len(data[0])
-    grid = [line.ljust(width) for line in data]
-    num_rows = height - 1
-    buff = [""] * num_rows
-
-    op = None
-    buff_idx = 0
-
-    for col in range(width):
-        bottom_char = grid[-1][col]
-
-        if bottom_char in ["+", "*"]:
-            if op is not None:
-                total2 += calc_column(op, buff)
-                buff = [""] * num_rows
-                
-            op = bottom_char
-            buff_idx = 0
+                    
+    def get_distance(p1, p2):
+        return sqrt(sum((a - b) ** 2 for a, b in zip(p1, p2)))
+        # sqrt((x1-x2)^2+(y1-y2)^2+(z1-z2)^2) euclidian distance formula thanks claude
+    
+    pairs = []
+    for i in range(len(points)):
+        for j in range(i + 1, len(points)):
+            distance = get_distance(points[i], points[j])
+            pairs.append((distance, i, j))
+            
+    pairs.sort()
+    
+    parent = list(range(len(points)))
+    print(parent)
+    def find_root(x):
+        if parent[x] != x:
+            parent[x] = find_root(parent[x])
+        return parent[x]
+    
+    def find_union(x, y):
+        px, py = find_root(x), find_root(y)
+        if px != py:
+            parent[px] = py
+            return True
+        return False
+    
+    connected = 0
+    for _, i, j in pairs[:num_connections]:
+        if find_union(i, j):
+            connected += 1
+            if connected == num_connections:
+                break
+            
+    circuts = {}
+    for i in range(len(points)):
+        root = find_root(i)
+        if root not in circuts:
+            circuts[root] = 0
+        circuts[root] += 1
         
-        for row in range(num_rows):
-            ch = grid[row][col]
-            if ch.isdigit():
-                buff[buff_idx] += ch
-
-        buff_idx += 1
-
-    if op is not None:
-        total2 += calc_column(op, buff)
-
+    sizes_count = sorted(circuts.values(), reverse=True)
+    result = (sizes_count[0] * sizes_count[1] * sizes_count[2])
+    total1 += result
+    
     print(f"Total1: {total1}")    
-    print(f"Total2: {total2}")    
-
-
-def calc_column(op, buff):
-    nums = [int(s) for s in buff if s != ""]
-    if op == "+":
-        return sum(nums)
-    if op == "*":
-        return prod(nums)
+    print(f"Total2: {total2}")
 
 if __name__ == "__main__":
+
     main()
 
