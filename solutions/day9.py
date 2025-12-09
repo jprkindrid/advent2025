@@ -2,9 +2,9 @@ from typing import List, Set, Tuple
 import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-input_path = os.path.join(current_dir, "inputs/input9.txt")
+input_path = os.path.join(current_dir, "../inputs/input9.txt")
 
-def main():
+def day9():
     total1 = 0
     total2 = 0
 
@@ -58,4 +58,4 @@ def main():
     print(f"Total2: {total2}")
 
 if __name__ == "__main__":
-    main()
+    day9()
