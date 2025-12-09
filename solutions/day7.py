@@ -1,3 +1,8 @@
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input7.txt")
+
 def part1(data: list[str]):
     current_positions = {data[0].find("S")}
     total = 0
@@ -39,7 +44,7 @@ def find_timelines(pos: int,idx: int, data: list[str], memo: dict):
     return 1
 
 def day7():
-    with open("input7.txt") as f:
+    with open(input_path) as f:
         data = [line.rstrip("\n") for line in f]
 
     print(f"Total1: {part1(data)}")    

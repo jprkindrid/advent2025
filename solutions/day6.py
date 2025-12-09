@@ -1,14 +1,18 @@
 from math import prod
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input6.txt")
 
 def day6():
     total1 = 0
     total2 = 0
 
 
-    with open("input6.txt") as f:
+    with open(input_path) as f:
         data = [line.rstrip("\n") for line in f]
 
-    with open("input6.txt") as f:
+    with open(input_path) as f:
         tokens = [line.strip().split() for line in f]
 
     operators = tokens[-1]

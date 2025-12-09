@@ -1,14 +1,17 @@
 from math import sqrt
-filename = "input8.txt"
-num_connections = 10 if "example" in filename else 1000
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input8.txt")
+num_connections = 1000
 
 
-def main():
+def day8():
     total1 = 0
     total2 = 0
 
     points = []
-    with open(filename) as f:
+    with open(input_path) as f:
         for line in f:
             x,y,z = map(int, line.strip().split(","))
             points.append((x,y,z))
@@ -65,5 +68,5 @@ def main():
     print(f"Total2: {total2}")
 
 if __name__ == "__main__":
-    main()
+    day8()
 

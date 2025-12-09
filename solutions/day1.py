@@ -1,9 +1,14 @@
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input1.txt")
+
 def day1():
     current_point = 50
     crosses_count = 0
     zero_count = 0
 
-    with open("input1.txt") as f:
+    with open(input_path) as f:
         for rotation in f:
             distance = int(rotation[1:])
 

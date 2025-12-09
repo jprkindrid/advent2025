@@ -1,8 +1,13 @@
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input5.txt")
+
 def day5():
     total1 = 0
     total2 = 0
 
-    with open("input5.txt") as f:
+    with open(input_path) as f:
         text = f.read().strip()
 
     range_lines, id_lines = text.split('\n\n')

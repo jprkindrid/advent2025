@@ -1,4 +1,8 @@
 from typing import List, Set, Tuple
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+input_path = os.path.join(script_dir, "../inputs/input4.txt")
 
 def can_remove(roll, roll_positions) -> bool:
     adjacent = 0
@@ -21,7 +25,7 @@ def day4():
     total2 = 0
     total_rolls = 0
     roll_list: List[Tuple[int,int]] = []
-    with open("input4.txt") as f:
+    with open(input_path) as f:
         for y, line in enumerate(f):
             line = line.strip()
 
