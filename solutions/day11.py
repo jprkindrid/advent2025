@@ -45,7 +45,7 @@ def part2(outputs):
     memo = {}
     return dfs2("svr", outputs, memo, False, False)
 
-def main():
+def day11():
     total1 = 0
     total2 = 0
 
@@ -70,4 +70,4 @@ def main():
     print(f"Total2: {total2}")
 
 if __name__ == "__main__":
-    main()
+    day11()
