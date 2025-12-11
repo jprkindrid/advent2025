@@ -1,6 +1,7 @@
 from typing import List, Tuple
 import os
 from collections import deque
+from ortools.sat.python import cp_model
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 input_path = os.path.join(current_dir, "inputs/input10.txt")
@@ -43,40 +44,36 @@ def min_presses_diagram(light_diagram, buttons):
     return None
 
 def min_presses_joltage(target, buttons):
-    dimension = len(target)
-    start = tuple([0] * dimension)
-    adds = []
-    for b in buttons:
-        vec = [0] * dimension
-        for i in b:
-            vec[i] += 1
-        adds.append(tuple(vec))
+    dim = len(target)
+    num_buttons = len(buttons)
+
+    model = cp_model.CpModel()
+
+    max_presses = sum(target) if target else 0
     
-    q = deque()
-    q.append((start, 0))
-    seen = {start}
+    x = [model.NewIntVar(0, max_presses, f"x_{j}") for j in range(num_buttons)]
 
-    while q:
-        state, steps = q.popleft()
+    for i in range(dim):
+        affecting = [j for j, btn in enumerate(buttons) if i in btn]
 
-        if state == tuple(target):
-            return steps
+        if not affecting:
+            if target[i] != 0:
+                return None
+            continue
         
-        for add in adds:
-            n = tuple(state[i] + add[i] for i in range(dimension))
-            if any(n[i] > target[i] for i in range(dimension)):
-                continue  
-            
-            if n not in seen:
-                seen.add(n)
-                q.append((n, steps + 1))
+        model.Add(sum(x[j] for j in affecting) == target[i])
 
-            if n not in seen:
-                seen.add(n)
-                q.append((n, steps + 1))
+    model.Minimize(sum(x))
 
-    return None
+    solver = cp_model.CpSolver()
+    status = solver.Solve(model)
 
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        return None
+    
+    total_presses = sum(solver.value(var) for var in x)
+
+    return total_presses
 
 def get_sections(machine):
     parts = machine.split(" ")
